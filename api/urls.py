@@ -11,9 +11,9 @@ urlpatterns = [
     path('choices/<str:pk>/', views.Choices, name='choices'),
     path('answers/<str:pk>/', views.Answers, name='answers'),
 
-    path('modules/add/', views.ModuleAdd, name='modules-add'),
-    path('quizzes/add/', views.QuizAdd, name='quizzes-add'),
-    path('questions/add/', views.QuestionAdd, name='questions-add'),
-    path('choices/add.', views.ChoiceAdd, name='choices-add'),
-    path('answers/add/', views.AnswerAdd, name='answers-add'),
+    path('module/add/', views.ModuleAdd, name='modules-add'),
+    path('quizze/add/', views.QuizAdd, name='quizzes-add'),
+    path('question/add/', views.QuestionAdd, name='questions-add'),
+    path('choice/add.', views.ChoiceAdd, name='choices-add'),
+    path('answer/add/', views.AnswerAdd, name='answers-add'),
 ]

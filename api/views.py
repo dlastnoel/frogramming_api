@@ -14,14 +14,18 @@ from .serializers import *
 @api_view(['GET'])
 def apiOverview(request):
     api_urls = {
-        'List of Officials': '/officials/',
-        'Official Details': '/officials/<str:pk>/',
-        'Cases': '/cases/',
-        'Case Count': '/cases/count/',
-        'Posts': '/posts/<str:type>',
-        'Request Details': '/requests/<str:pk>',
-        'Request Create': '/request-create/',
-        'Request Update': '/request-update/',
+        'Users': '/users/<str:pk>',
+        'Modules': '/modules/<str:pk>',
+        'Quizzes': '/quizzes/<str:pk>/',
+        'Questions': '/questions/<str:pk>',
+        'Choices': '/choices/<str:pk>/',
+        'Answers add': '/answers/<str:pk>',
+        'Users add': '/users/add/',
+        'Modules add': '/module/add/',
+        'Quizzes add': '/quiz/add//',
+        'Questions add': '/question/add/',
+        'Choices add': '/choice/add//',
+        'Answers add': '/answer/add/',
     }
     return Response(api_urls)
 
@@ -79,6 +83,7 @@ def Choices(request, pk):
 
     serializer = ModuleSerializer(choices, many=True)
     return Response(serializer.data)
+
 
 @api_view(['GET'])
 def Answers(request, pk):
