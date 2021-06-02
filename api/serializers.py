@@ -2,10 +2,12 @@ from django.db.models import fields
 from rest_framework import serializers
 from .models import *
 
+
 class UserSerializer(serializers.ModelSerializer):
-  class Meta:
-    model = User
-    fields = '__all__'
+    class Meta:
+        model = User
+        fields = '__all__'
+
 
 class ModuleSerializer(serializers.ModelSerializer):
 
@@ -17,13 +19,13 @@ class ModuleSerializer(serializers.ModelSerializer):
 class QuizSerializer(serializers.ModelSerializer):
     class Meta:
         model = Quiz
-        fields = '_all__'
+        fields = '__all__'
 
 
-class QuestionSerializer(serializers.Serializer):
+class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
-        fields = '_all__'
+        fields = '__all__'
 
 
 class ChoiceSerializer(serializers.ModelSerializer):

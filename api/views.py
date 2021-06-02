@@ -35,7 +35,7 @@ def Users(request, pk):
     if(pk == 'all'):
         users = User.objects.all()
     else:
-        users = User.objects.get(id=pk)
+        users = User.objects.filter(id=pk)
 
     serializer = UserSerializer(users, many=True)
     return Response(serializer.data)
@@ -57,7 +57,7 @@ def Quizzes(request, pk):
     if(pk == 'all'):
         quizzes = Quiz.objects.all()
     else:
-        quizzes = Quiz.objects.get(id=pk)
+        quizzes = Quiz.objects.filter(module_id=pk)
 
     serializer = QuizSerializer(quizzes, many=True)
     return Response(serializer.data)
@@ -68,9 +68,9 @@ def Questions(request, pk):
     if(pk == 'all'):
         questions = Question.objects.all()
     else:
-        questions = Question.objects.get(id=pk)
+        questions = Question.objects.filter(quiz_id=pk)
 
-    serializer = ModuleSerializer(questions, many=True)
+    serializer = QuestionSerializer(questions, many=True)
     return Response(serializer.data)
 
 
@@ -79,9 +79,9 @@ def Choices(request, pk):
     if(pk == 'all'):
         choices = Choice.objects.all()
     else:
-        choices = Choice.objects.get(id=pk)
+        choices = Choice.objects.filter(id=pk)
 
-    serializer = ModuleSerializer(choices, many=True)
+    serializer = ChoiceSerializer(choices, many=True)
     return Response(serializer.data)
 
 
@@ -132,13 +132,15 @@ def QuestionAdd(request):
 
     if serializer.is_valid():
         serializer.save()
+    else:
+        print('error')
 
     return Response(serializer.data)
 
 
 @ api_view(['POST'])
 def ChoiceAdd(request):
-    serializer = QuestionSerializer(data=request.data)
+    serializer = ChoiceSerializer(data=request.data)
 
     if serializer.is_valid():
         serializer.save()
