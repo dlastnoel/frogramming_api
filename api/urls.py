@@ -10,6 +10,7 @@ urlpatterns = [
     path('questions/<str:pk>/', views.Questions, name='questions'),
     path('answers/<str:pk>/', views.Answers, name='answers'),
     path('userquizzes/<str:pk>/', views.UserQuizzes, name='userquizzes'),
+    path('leaderboards/<str:pk>/', views.Leaderboards, name='leaderboards'),
 
     path('user/add/', views.UserAdd, name='user-add'),
     path('module/add/', views.ModuleAdd, name='modules-add'),
@@ -19,4 +20,5 @@ urlpatterns = [
     path('userquiz/add/', views.UserQuizAdd, name='userquiz-add'),
     path('checkuserquiz/', views.CheckUserQuiz, name='checkuserquiz'),
     path('viewuserscore/', views.ViewUserScore, name='viewuserscore'),
+    path('viewuseranswers/', views.ViewUserAnswers, name='viewuseranswers'),
 ]

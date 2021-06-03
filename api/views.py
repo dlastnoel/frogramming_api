@@ -28,6 +28,9 @@ def apiOverview(request):
         'Quizzes add': '/quiz/add//',
         'Questions add': '/question/add/',
         'Answers add': '/answer/add/',
+        'Check user quiz': '/checkuserquiz/',
+        'View user score': '/viewuserscore/',
+        'Leaderboards': '/leaderboards/',
     }
     return Response(api_urls)
 
@@ -96,6 +99,17 @@ def UserQuizzes(request, pk):
         userquizzes = UserQuiz.objects.get(id=pk)
 
     serializer = UserQuizSerializer(userquizzes, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def Leaderboards(request, pk):
+    if(pk == 'all'):
+        userquizzes = UserQuiz.objects.all()
+    else:
+        userquizzes = UserQuiz.objects.filter(quiz_id=pk).order_by('-score')
+
+    serializer = LeaderboardsSerializer(userquizzes, many=True)
     return Response(serializer.data)
 
 
@@ -191,3 +205,16 @@ def ViewUserScore(request):
             'score': user_quiz.score
         }
     return Response(results)
+
+
+@ api_view(['POST'])
+def ViewUserAnswers(request):
+    serializer = UserQuizSerializer(data=request.data)
+    if serializer.is_valid():
+        request_user_id = request.data['user_id']
+        request_quiz_id = request.data['quiz_id']
+        user_answers = Answer.objects.filter(
+            user_id=request_user_id, quiz_id=request_quiz_id)
+        answer_serializer = AnswerSerializer(user_answers, many=True)
+
+    return Response(answer_serializer.data)
