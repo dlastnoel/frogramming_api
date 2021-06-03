@@ -5,6 +5,8 @@ from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
+from random import sample
+
 from .models import *
 from .serializers import *
 
@@ -24,7 +26,6 @@ def apiOverview(request):
         'Modules add': '/module/add/',
         'Quizzes add': '/quiz/add//',
         'Questions add': '/question/add/',
-        'Choices add': '/choice/add//',
         'Answers add': '/answer/add/',
     }
     return Response(api_urls)
@@ -66,7 +67,8 @@ def Quizzes(request, pk):
 @api_view(['GET'])
 def Questions(request, pk):
     if(pk == 'all'):
-        questions = Question.objects.all()
+        count = Question.objects.all().count()
+        questions = Question.objects.all().order_by('?')[:count]
     else:
         questions = Question.objects.filter(quiz_id=pk)
 
@@ -75,24 +77,24 @@ def Questions(request, pk):
 
 
 @api_view(['GET'])
-def Choices(request, pk):
+def Answers(request, pk):
     if(pk == 'all'):
-        choices = Choice.objects.all()
+        answers = Answer.objects.all()
     else:
-        choices = Choice.objects.filter(id=pk)
+        answers = Answer.objects.get(id=pk)
 
-    serializer = ChoiceSerializer(choices, many=True)
+    serializer = AnswerSerializer(answers, many=True)
     return Response(serializer.data)
 
 
 @api_view(['GET'])
-def Answers(request, pk):
+def UserQuizzes(request, pk):
     if(pk == 'all'):
-        answers = Answers.objects.all()
+        userquizzes = UserQuiz.objects.all()
     else:
-        answers = Answers.objects.get(id=pk)
+        userquizzes = UserQuiz.objects.get(id=pk)
 
-    serializer = ModuleSerializer(answers, many=True)
+    serializer = UserQuizSerializer(userquizzes, many=True)
     return Response(serializer.data)
 
 
@@ -139,8 +141,8 @@ def QuestionAdd(request):
 
 
 @ api_view(['POST'])
-def ChoiceAdd(request):
-    serializer = ChoiceSerializer(data=request.data)
+def AnswerAdd(request):
+    serializer = AnswerSerializer(data=request.data)
 
     if serializer.is_valid():
         serializer.save()
@@ -149,10 +151,33 @@ def ChoiceAdd(request):
 
 
 @ api_view(['POST'])
-def AnswerAdd(request):
-    serializer = AnswerSerializer(data=request.data)
+def UserQuizAdd(request):
+    serializer = UserQuizSerializer(data=request.data)
 
     if serializer.is_valid():
         serializer.save()
 
     return Response(serializer.data)
+
+
+@ api_view(['POST'])
+def CheckUserQuiz(request):
+    serializer = UserQuizSerializer(data=request.data)
+    if serializer.is_valid():
+        request_user_id = request.data['user_id']
+        request_quiz_id = request.data['quiz_id']
+        user_quiz = UserQuiz.objects.filter(
+            user_id=request_user_id, quiz_id=request_quiz_id).exists()
+        response = {
+            'response': user_quiz
+        }
+
+    return Response(response)
+
+
+@ api_view(['POST'])
+def ViewUserScore(request):
+    serializer = UserQuizSerializer(data=request.data)
+    if serializer.is_valid():
+        request_user_id = request.data['user_id']
+        request_quiz_id = request.data['quiz_id']

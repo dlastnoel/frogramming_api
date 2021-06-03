@@ -27,14 +27,12 @@ class QuestionSerializer(serializers.ModelSerializer):
         model = Question
         fields = '__all__'
 
-
-class ChoiceSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Choice
-        fields = '__all__'
-
-
 class AnswerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Answer
+        fields = '__all__'
+
+class UserQuizSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserQuiz
         fields = '__all__'
