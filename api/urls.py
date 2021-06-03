@@ -18,4 +18,5 @@ urlpatterns = [
     path('answer/add/', views.AnswerAdd, name='answers-add'),
     path('userquiz/add/', views.UserQuizAdd, name='userquiz-add'),
     path('checkuserquiz/', views.CheckUserQuiz, name='checkuserquiz'),
+    path('viewuserscore/', views.ViewUserScore, name='viewuserscore'),
 ]

@@ -1,6 +1,7 @@
 from django.db.models.base import Model
 from django.shortcuts import render
 from django.http import JsonResponse
+from rest_framework import response
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -181,3 +182,12 @@ def ViewUserScore(request):
     if serializer.is_valid():
         request_user_id = request.data['user_id']
         request_quiz_id = request.data['quiz_id']
+        user_quiz = UserQuiz.objects.get(
+            user_id=request_user_id, quiz_id=request_quiz_id)
+        results = {
+            'user_id': request_user_id,
+            'quiz_id': request_quiz_id,
+            'total': user_quiz.total,
+            'score': user_quiz.score
+        }
+    return Response(results)

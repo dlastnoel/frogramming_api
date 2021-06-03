@@ -39,6 +39,7 @@ class Question(models.Model):
 
 class Answer(models.Model):
     user_id = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+    quiz_id = models.ForeignKey(Quiz, null=True, on_delete=models.SET_NULL)
     question_id = models.ForeignKey(
         Question, null=True, on_delete=models.SET_NULL)
     user_answer = models.CharField(max_length=255)
@@ -50,6 +51,8 @@ class Answer(models.Model):
 class UserQuiz(models.Model):
     user_id = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     quiz_id = models.ForeignKey(Quiz, null=True, on_delete=models.SET_NULL)
+    total = models.IntegerField(null = True, blank = True)
+    score = models.IntegerField(null = True, blank = True)
 
     def __str__(self):
         return '(User: ' + self.user_id.username + ') - ' + str(self.quiz_id)
