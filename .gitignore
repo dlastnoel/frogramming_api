@@ -138,6 +138,8 @@ pythonenv*
 # mkdocs documentation
 /site
 
+module/
+
 # mypy
 .mypy_cache/
 .dmypy.json

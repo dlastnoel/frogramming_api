@@ -2,6 +2,7 @@ from django.db.models import fields
 from rest_framework import serializers
 from rest_framework.fields import Field
 from .models import *
+from django.conf import settings
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -11,10 +12,14 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class ModuleSerializer(serializers.ModelSerializer):
+    url = serializers.SerializerMethodField('get_url')
+
+    def get_url(self, obj):
+        return '%s%s' % (settings.MEDIA_URL, obj.module)
 
     class Meta:
         model = Module
-        fields = '__all__'
+        fields = ('id', 'name', 'url')
 
 
 class QuizSerializer(serializers.ModelSerializer):
