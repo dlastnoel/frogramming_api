@@ -19,7 +19,7 @@ class ModuleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Module
-        fields = ('id', 'name', 'url')
+        fields = ('id', 'description', 'name', 'url')
 
 
 class QuizSerializer(serializers.ModelSerializer):

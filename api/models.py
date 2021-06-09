@@ -11,7 +11,9 @@ class User(models.Model):
 
 
 class Module(models.Model):
+
     name = models.CharField(max_length=255)
+    description = models.TextField(max_length=255)
     module = models.FileField(max_length=255)
 
     def __str__(self):
@@ -27,8 +29,14 @@ class Quiz(models.Model):
 
 
 class Question(models.Model):
+
+    TYPE_CHOICES = (
+        ('fill', 'Fill in the blanks'),
+        ('choice', 'Multiple choice'),
+        ('tf', 'True or False'),
+    )
     quiz_id = models.ForeignKey(Quiz, null=True, on_delete=models.SET_NULL)
-    type = models.CharField(max_length=255)
+    type = models.CharField(max_length=255, choices=TYPE_CHOICES)
     question = models.TextField()
     choice = models.TextField(null=True, blank=True)
     correct_answer = models.CharField(max_length=255)

@@ -51,7 +51,7 @@ def Modules(request, pk):
     if(pk == 'all'):
         modules = Module.objects.all()
     else:
-        modules = Module.objects.get(id=pk)
+        modules = Module.objects.filter(id=pk)
 
     serializer = ModuleSerializer(modules, many=True)
     return Response(serializer.data)
@@ -178,6 +178,7 @@ def UserQuizAdd(request):
 @ api_view(['POST'])
 def CheckUserQuiz(request):
     serializer = UserQuizSerializer(data=request.data)
+    response = None
     if serializer.is_valid():
         request_user_id = request.data['user_id']
         request_quiz_id = request.data['quiz_id']
